@@ -50,7 +50,7 @@ bundle: "Published on the portfolio site with its SHA-256 checksum"
 | Host | OS | Role | IP | Sizing |
 |---|---|---|---|---|
 | wazuh01 | Ubuntu 24.04 | Wazuh indexer + server + dashboard | 10.10.20.10 | 4 vCPU, 8 GB RAM, 80 GB |
-| dc01 | Windows Server 2022 (eval) | Domain controller `lab.local`; agent + Sysmon | 10.10.20.11 | 2 vCPU, 4 GB, 60 GB |
+| dc01 | Windows Server 2022 (eval) | Domain controller `corp.internal`; agent + Sysmon | 10.10.20.11 | 2 vCPU, 4 GB, 60 GB |
 | srv01 | Ubuntu 24.04 | Linux server; agent + auditd | 10.10.20.12 | 1 vCPU, 2 GB, 20 GB |
 | ws01 | Windows 11 (eval) | Domain-joined workstation; agent + Sysmon | 10.10.30.21 | 2 vCPU, 4 GB, 60 GB |
 | fw01 | OPNsense 26.7 | Inter-VLAN firewall (fw-hq from Lab 02); syslog to wazuh01 | 10.10.99.1 | 2 vCPU, 4 GB, 32 GB |

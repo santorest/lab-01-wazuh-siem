@@ -35,7 +35,7 @@
 | Host | SO | Función | IP | Recursos |
 |---|---|---|---|---|
 | wazuh01 | Ubuntu 24.04 | Indexador + servidor + dashboard de Wazuh | 10.10.20.10 | 4 vCPU, 8 GB RAM, 80 GB |
-| dc01 | Windows Server 2022 (evaluación) | Controlador de dominio `lab.local`; agente + Sysmon | 10.10.20.11 | 2 vCPU, 4 GB, 60 GB |
+| dc01 | Windows Server 2022 (evaluación) | Controlador de dominio `corp.internal`; agente + Sysmon | 10.10.20.11 | 2 vCPU, 4 GB, 60 GB |
 | srv01 | Ubuntu 24.04 | Servidor Linux; agente + auditd | 10.10.20.12 | 1 vCPU, 2 GB, 20 GB |
 | ws01 | Windows 11 (evaluación) | Estación unida al dominio; agente + Sysmon | 10.10.30.21 | 2 vCPU, 4 GB, 60 GB |
 | fw01 | OPNsense 26.7 | Firewall entre VLAN (fw-hq del Lab 02); syslog hacia wazuh01 | 10.10.99.1 | 2 vCPU, 4 GB, 32 GB |

@@ -103,6 +103,7 @@ following the upstream Atomic Red Team documentation for the pinned release; out
 ## 5. Deliverables and measurement
 
 **Delivered in this repository:**
+
 - Architecture and sizing for a five-VM, three-VLAN lab ([diagram](diagrams/architecture.svg)).
 - Detection plan: eight use cases mapped to MITRE ATT&CK and to the telemetry each one needs.
 - A version-pinned Wazuh 4.14.8 installer that verifies the upstream checksum before running.

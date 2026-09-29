@@ -88,6 +88,7 @@ se registran en [`tests/test-plan.md`](tests/test-plan.md).
 ## 5. Entregables y medición
 
 **Entregado en este repositorio:**
+
 - Arquitectura y dimensionamiento de un laboratorio de cinco VM y tres VLAN ([diagrama](diagrams/architecture.svg)).
 - Plan de detección: ocho casos de uso mapeados a MITRE ATT&CK y a la telemetría que necesita cada uno.
 - Un instalador de Wazuh 4.14.8 con versión fijada que verifica el checksum del proveedor antes de ejecutarse.

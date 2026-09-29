@@ -32,6 +32,9 @@ jobs:
       - uses: actions/checkout@v7
         with:
           fetch-depth: 0
-      - uses: gitleaks/gitleaks-action@v3
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # Full-history scan with the pinned official image. (gitleaks-action scans only the pushed range, which
+      # breaks when that range no longer exists, e.g. after a history rewrite or on a new repo's first push.)
+      - name: gitleaks (full history)
+        run: >-
+          docker run --rm -v "$PWD:/repo" ghcr.io/gitleaks/gitleaks:v8.24.3
+          git /repo --redact --verbose --exit-code 1

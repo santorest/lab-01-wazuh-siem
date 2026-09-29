@@ -5,6 +5,8 @@ repo_url: https://github.com/santorest/lab-01-wazuh-siem
 status: in_progress          # complete | in_progress
 difficulty: intermediate     # beginner | intermediate | advanced
 featured: true
+# Show the site's "illustrative output" notice only once the write-up contains lab output/screenshots.
+sample_output_notice: false
 cover: diagrams/architecture.png
 writeup:
   en: WRITEUP.md

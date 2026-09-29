@@ -21,10 +21,10 @@
 - **Por qué importa:** el robo de credenciales, la persistencia y el abuso de privilegios pasarían
   inadvertidos durante semanas. La empresa no puede pagar un SIEM comercial ni un SOC 24/7.
 - **Objetivos:**
-  1. Centralizar la telemetría de Windows, Linux y el firewall en un SIEM de código abierto.
-  2. Detectar 8 comportamientos de atacantes relevantes para una empresa de este tamaño, mapeados a MITRE ATT&CK.
-  3. Mantener un volumen de alertas que una sola persona a tiempo parcial pueda revisar a diario.
-  4. Hacer que todo el laboratorio sea reproducible desde el repositorio.
+    1. Centralizar la telemetría de Windows, Linux y el firewall en un SIEM de código abierto.
+    2. Detectar 8 comportamientos de atacantes relevantes para una empresa de este tamaño, mapeados a MITRE ATT&CK.
+    3. Mantener un volumen de alertas que una sola persona a tiempo parcial pueda revisar a diario.
+    4. Hacer que todo el laboratorio sea reproducible desde el repositorio.
 - **Alcance y restricciones:** solo herramientas de código abierto; licencias de evaluación para Windows; todo
   se ejecuta en un laboratorio aislado sin ruta hacia ninguna red de producción.
 - **Criterios de éxito:** cada caso de uso tiene un resultado de detección registrado; el volumen diario de

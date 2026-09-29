@@ -34,10 +34,10 @@ bundle: "Published on the portfolio site with its SHA-256 checksum"
 - **Why it matters:** credential theft, persistence and privilege abuse would go unnoticed for weeks. The
   company can't afford a commercial SIEM or a 24/7 SOC.
 - **Goals:**
-  1. Centralise Windows, Linux and firewall telemetry in one open-source SIEM.
-  2. Detect 8 attacker behaviours that matter for a company this size, mapped to MITRE ATT&CK.
-  3. Keep alert volume low enough for one part-time person to review daily.
-  4. Make the whole lab reproducible from this repository.
+    1. Centralise Windows, Linux and firewall telemetry in one open-source SIEM.
+    2. Detect 8 attacker behaviours that matter for a company this size, mapped to MITRE ATT&CK.
+    3. Keep alert volume low enough for one part-time person to review daily.
+    4. Make the whole lab reproducible from this repository.
 - **Scope & constraints:** open-source tooling only; evaluation licences for Windows; everything runs in an
   isolated lab with no route to any production network.
 - **Success criteria:** every use case has a recorded detection result; daily alert volume measured before

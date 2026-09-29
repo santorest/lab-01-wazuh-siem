@@ -9,7 +9,7 @@ flowchart LR
     ws01[ws01 Win11<br/>agent + Sysmon]
   end
   subgraph V99[VLAN 99 - Management]
-    fw[fw01 pfSense]
+    fw[fw01 OPNsense 26.7<br/>= fw-hq from Lab 02]
     analyst[Analyst / jump host]
   end
   dc01 -- 1514/tcp --> wazuh

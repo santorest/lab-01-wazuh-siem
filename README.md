@@ -3,7 +3,7 @@
 [![CI](https://github.com/santorest/lab-01-wazuh-siem/actions/workflows/ci.yml/badge.svg)](https://github.com/santorest/lab-01-wazuh-siem/actions/workflows/ci.yml)
 
 Detection-engineering lab for a fictional 40-person company: centralized logging with Wazuh, Windows
-telemetry with Sysmon, Linux telemetry with auditd, firewall logs from pfSense, and eight use cases mapped to
+telemetry with Sysmon, Linux telemetry with auditd, firewall logs from OPNsense, and eight use cases mapped to
 MITRE ATT&CK.
 
 **Category:** Threat Detection & SIEM · **Status:** reference design — ready to build ·
@@ -18,7 +18,7 @@ MITRE ATT&CK.
 | dc01 | Windows Server 2022 | Domain controller (agent + Sysmon) | 10.10.20.11 |
 | srv01 | Ubuntu 24.04 | Linux server (agent + auditd) | 10.10.20.12 |
 | ws01 | Windows 11 | Workstation (agent + Sysmon) | 10.10.30.21 |
-| fw01 | pfSense CE | Firewall, syslog source | 10.10.99.1 |
+| fw01 | OPNsense 26.7 | Firewall (fw-hq, built in [Lab 02](https://github.com/santorest/lab-02-segmented-network)), syslog source | 10.10.99.1 |
 
 All addresses are lab-only. The lab network has no route to production networks.
 

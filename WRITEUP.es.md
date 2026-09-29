@@ -9,7 +9,7 @@
 |---|---|
 | **Rol asumido** | Ingeniero de seguridad de una empresa de 40 personas sin SOC |
 | **Entorno** | Proxmox VE, 5 VM, red de laboratorio aislada (3 VLAN) |
-| **Herramientas** | Wazuh 4.14.8, Sysmon (sysmon-modular), auditd, pfSense CE, Python |
+| **Herramientas** | Wazuh 4.14.8, Sysmon (sysmon-modular), auditd, OPNsense, Python |
 | **Entregable** | Arquitectura, plan de detección, scripts de construcción fijados, herramientas de reporte probadas |
 
 ---
@@ -38,7 +38,7 @@
 | dc01 | Windows Server 2022 (evaluación) | Controlador de dominio `lab.local`; agente + Sysmon | 10.10.20.11 | 2 vCPU, 4 GB, 60 GB |
 | srv01 | Ubuntu 24.04 | Servidor Linux; agente + auditd | 10.10.20.12 | 1 vCPU, 2 GB, 20 GB |
 | ws01 | Windows 11 (evaluación) | Estación unida al dominio; agente + Sysmon | 10.10.30.21 | 2 vCPU, 4 GB, 60 GB |
-| fw01 | pfSense CE | Firewall entre VLAN; syslog hacia wazuh01 | 10.10.99.1 | 1 vCPU, 1 GB, 16 GB |
+| fw01 | OPNsense 26.7 | Firewall entre VLAN (fw-hq del Lab 02); syslog hacia wazuh01 | 10.10.99.1 | 2 vCPU, 4 GB, 32 GB |
 
 - **Flujos de datos:** agentes → wazuh01 por 1514/tcp (protocolo cifrado del agente); fw01 → wazuh01 por
   syslog 514/udp; analista → dashboard de Wazuh por 443/tcp, solo desde la VLAN de gestión.
@@ -48,12 +48,12 @@
 | Wazuh de un solo nodo, instalación nativa | Elastic Security; Wazuh en Docker | Gratuito; incluye agentes, FIM, SCA y respuesta activa; la instalación nativa es como la operaría una empresa pequeña |
 | Versión fijada (4.14.8) con verificación del instalador | Instalador "latest" | Construcciones reproducibles; un cambio inesperado del proveedor detiene la instalación en lugar de producir un resultado distinto |
 | Sysmon con sysmon-modular | Configuración de SwiftOnSecurity; sin Sysmon | Mantenida, modular y etiquetada con técnicas ATT&CK |
-| pfSense ahora, FortiGate después | Esperar al laboratorio de FortiGate | Desbloquea la telemetría del firewall; la ruta de syslog no cambia cuando llegue FortiGate |
+| OPNsense como firewall | Prueba de FortiGate-VM; pfSense CE | La prueba gratuita de FortiGate es demasiado limitada (ver lecciones); OPNsense se construye y documenta en el [Lab 02](https://github.com/santorest/lab-02-segmented-network); la ruta de syslog no cambia si más adelante se usa un FortiGate con licencia |
 
 ## 3. Construcción
 
 1. **Requisitos** — host Proxmox con ≥32 GB de RAM; bridge/VLAN aisladas 20, 30 y 99; ISO de evaluación de
-   Windows Server 2022 y Windows 11; ISO de Ubuntu 24.04; ISO de pfSense CE.
+   Windows Server 2022 y Windows 11; ISO de Ubuntu 24.04; el firewall OPNsense del [Lab 02](https://github.com/santorest/lab-02-segmented-network).
 2. **Servidor Wazuh** — en wazuh01 ejecuta [`scripts/deploy/install-wazuh.sh`](scripts/deploy/install-wazuh.sh).
    Descarga el instalador oficial 4.14.8, **verifica su SHA-256** e instala el indexador, el servidor y el
    dashboard. Guarda la contraseña de administrador generada en un gestor de contraseñas.
@@ -61,7 +61,7 @@
    configuración de recolección está en [`configs/agents/`](configs/agents/).
 4. **Sysmon** — instálalo en dc01 y ws01 con la configuración fijada de sysmon-modular
    ([`configs/sysmon/README.md`](configs/sysmon/README.md)).
-5. **Registros del firewall** — configura el syslog remoto de pfSense hacia wazuh01.
+5. **Registros del firewall** — configura el syslog remoto de OPNsense hacia wazuh01 (Lab 02, guía 08).
 6. **Línea base** — deja el laboratorio funcionando con actividad normal durante una semana y exporta el conteo
    diario de alertas con [`scripts/report/export_alert_metrics.py`](scripts/report/export_alert_metrics.py).
 
@@ -114,7 +114,7 @@ se puede calcular a partir de un subconjunto favorable de pruebas.
   silencioso del proveedor en una detención visible.
 - **Revisa los límites de licencia antes de diseñar alrededor de un producto.** La prueba gratuita de
   FortiGate-VM solo permite tres interfaces, políticas y rutas, y no recibe actualizaciones de FortiGuard; por
-  eso la fuente de registros del firewall usa pfSense/OPNsense, que no tienen esos límites. La ruta de syslog no
+  eso la fuente de registros del firewall usa OPNsense ([Lab 02](https://github.com/santorest/lab-02-segmented-network)), que no tiene esos límites. La ruta de syslog no
   cambia si más adelante se usa un FortiGate con licencia.
 - **Planifica la telemetría antes que las reglas.** La mayoría de los casos de uso de Windows dependen de que
   Sysmon, la política de auditoría avanzada y el registro de bloques de script de PowerShell estén activos; sin

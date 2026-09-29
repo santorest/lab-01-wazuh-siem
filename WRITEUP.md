@@ -6,7 +6,7 @@ type: "Lab"
 status: "reference design"
 date: "2026-09-29"
 time_to_reproduce: "1–2 days to build, plus one week of baseline"
-skills: [Wazuh, Sysmon, auditd, pfSense, MITRE ATT&CK, Python, Bash]
+skills: [Wazuh, Sysmon, auditd, OPNsense, MITRE ATT&CK, Python, Bash]
 frameworks: [MITRE ATT&CK, CIS Controls v8]
 repo: "https://github.com/santorest/lab-01-wazuh-siem"
 bundle: "Published on the portfolio site with its SHA-256 checksum"
@@ -22,7 +22,7 @@ bundle: "Published on the portfolio site with its SHA-256 checksum"
 |---|---|
 | **Role played** | Security engineer for a 40-person company with no SOC |
 | **Environment** | Proxmox VE, 5 VMs, isolated lab network (3 VLANs) |
-| **Tools** | Wazuh 4.14.8, Sysmon (sysmon-modular), auditd, pfSense CE, Python |
+| **Tools** | Wazuh 4.14.8, Sysmon (sysmon-modular), auditd, OPNsense, Python |
 | **Deliverable** | Architecture, detection plan, pinned build scripts, tested reporting tools |
 
 ---
@@ -53,7 +53,7 @@ bundle: "Published on the portfolio site with its SHA-256 checksum"
 | dc01 | Windows Server 2022 (eval) | Domain controller `lab.local`; agent + Sysmon | 10.10.20.11 | 2 vCPU, 4 GB, 60 GB |
 | srv01 | Ubuntu 24.04 | Linux server; agent + auditd | 10.10.20.12 | 1 vCPU, 2 GB, 20 GB |
 | ws01 | Windows 11 (eval) | Domain-joined workstation; agent + Sysmon | 10.10.30.21 | 2 vCPU, 4 GB, 60 GB |
-| fw01 | pfSense CE | Inter-VLAN firewall; syslog to wazuh01 | 10.10.99.1 | 1 vCPU, 1 GB, 16 GB |
+| fw01 | OPNsense 26.7 | Inter-VLAN firewall (fw-hq from Lab 02); syslog to wazuh01 | 10.10.99.1 | 2 vCPU, 4 GB, 32 GB |
 
 - **Data flows:** agents → wazuh01 on 1514/tcp (encrypted agent protocol); fw01 → wazuh01 syslog on 514/udp;
   analyst → Wazuh dashboard on 443/tcp from the management VLAN only.
@@ -63,12 +63,12 @@ bundle: "Published on the portfolio site with its SHA-256 checksum"
 | Wazuh single-node, native install | Elastic Security; Wazuh in Docker | Free, includes agents, FIM, SCA and active response; native install matches how a small company would run it |
 | Version pinned (4.14.8) with installer checksum | "Latest" installer | Reproducible builds; an unexpected upstream change stops the install instead of silently differing |
 | Sysmon with sysmon-modular | SwiftOnSecurity config; no Sysmon | Maintained, modular, and tagged with ATT&CK techniques |
-| pfSense now, FortiGate later | Wait for the FortiGate lab | Unblocks firewall telemetry; the syslog path stays the same when FortiGate replaces it |
+| OPNsense as the firewall | FortiGate-VM trial; pfSense CE | The free FortiGate trial is too limited (see lessons); OPNsense is built and documented in [Lab 02](https://github.com/santorest/lab-02-segmented-network); the syslog path stays the same if a licensed FortiGate replaces it |
 
 ## 3. Build
 
 1. **Prerequisites** — Proxmox host with ≥32 GB RAM; isolated bridge/VLANs 20, 30, 99; Windows Server 2022
-   and Windows 11 evaluation ISOs; Ubuntu 24.04 ISO; pfSense CE ISO.
+   and Windows 11 evaluation ISOs; Ubuntu 24.04 ISO; the OPNsense firewall from [Lab 02](https://github.com/santorest/lab-02-segmented-network).
 2. **Wazuh server** — on wazuh01 run [`scripts/deploy/install-wazuh.sh`](scripts/deploy/install-wazuh.sh). It
    downloads the official 4.14.8 installer, **verifies its SHA-256**, and installs the indexer, server and
    dashboard. Store the generated admin password in a password manager.
@@ -76,7 +76,7 @@ bundle: "Published on the portfolio site with its SHA-256 checksum"
    settings live in [`configs/agents/`](configs/agents/).
 4. **Sysmon** — install on dc01 and ws01 with the pinned sysmon-modular configuration
    ([`configs/sysmon/README.md`](configs/sysmon/README.md)).
-5. **Firewall logs** — point pfSense remote syslog at wazuh01.
+5. **Firewall logs** — point OPNsense remote syslog at wazuh01 (Lab 02, guide 08).
 6. **Baseline** — let the lab run with normal activity for one week and export daily alert counts with
    [`scripts/report/export_alert_metrics.py`](scripts/report/export_alert_metrics.py).
 
@@ -129,7 +129,7 @@ from a favourable subset of tests.
   visible stop.
 - **Check licence limits before designing around a product.** The free FortiGate-VM trial allows only three
   interfaces, policies and routes and has no FortiGuard updates, so the firewall log source uses
-  pfSense/OPNsense, which have no such limits. The syslog path stays the same if a licensed FortiGate replaces it.
+  OPNsense ([Lab 02](https://github.com/santorest/lab-02-segmented-network)), which has no such limits. The syslog path stays the same if a licensed FortiGate replaces it.
 - **Plan telemetry before rules.** Most Windows use cases depend on Sysmon, the advanced audit policy and
   PowerShell script-block logging being in place first; a rule has nothing to match without them. Each use case
   therefore names its telemetry source.

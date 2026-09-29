@@ -3,7 +3,7 @@ title: "Wazuh SIEM Home Lab"
 id: "lab-01-wazuh-siem"
 category: "Threat Detection & SIEM"
 type: "Lab"
-status: "draft"
+status: "reference design"
 date: "2026-09-29"
 time_to_reproduce: "1–2 days to build, plus one week of baseline"
 skills: [Wazuh, Sysmon, auditd, pfSense, MITRE ATT&CK, Python, Bash]
@@ -14,16 +14,16 @@ bundle: "Published on the portfolio site with its SHA-256 checksum"
 
 # Wazuh SIEM Home Lab
 
-> **TL;DR** — Design and build of a single-node Wazuh SIEM for a fictional 40-person company, collecting
-> Windows (Sysmon), Linux (auditd) and firewall telemetry, with eight detection use cases mapped to MITRE
-> ATT&CK. **Status: build in progress — lab results are pending and will be published only once measured.**
+> **TL;DR** — Reference architecture for a single-node Wazuh SIEM protecting a fictional 40-person company:
+> Windows (Sysmon), Linux (auditd) and firewall telemetry, eight detection use cases mapped to MITRE ATT&CK,
+> version-pinned tooling and a tested measurement pipeline. **Deliverable: reference design, ready to build.**
 
 | | |
 |---|---|
 | **Role played** | Security engineer for a 40-person company with no SOC |
 | **Environment** | Proxmox VE, 5 VMs, isolated lab network (3 VLANs) |
 | **Tools** | Wazuh 4.14.8, Sysmon (sysmon-modular), auditd, pfSense CE, Python |
-| **Key result** | Pending lab run |
+| **Deliverable** | Architecture, detection plan, pinned build scripts, tested reporting tools |
 
 ---
 
@@ -80,47 +80,65 @@ bundle: "Published on the portfolio site with its SHA-256 checksum"
 6. **Baseline** — let the lab run with normal activity for one week and export daily alert counts with
    [`scripts/report/export_alert_metrics.py`](scripts/report/export_alert_metrics.py).
 
-> **Gotchas:** recorded as the build progresses in [`docs/build-notes.md`](docs/build-notes.md).
+> **Build notes:** gotchas and fixes are logged in [`docs/build-notes.md`](docs/build-notes.md).
 
-## 4. Test / Validate
+## 4. Detection plan
 
-Each use case is exercised inside the isolated lab only (VM snapshot before, revert after), following the
-upstream Atomic Red Team documentation for the pinned release. Results are recorded in
+The detection plan: each use case names the host it runs on, the behaviour to detect and the telemetry that
+makes it visible. Use cases are exercised only inside the isolated lab (VM snapshot before, revert after),
+following the upstream Atomic Red Team documentation for the pinned release; outcomes are recorded in
 [`tests/test-plan.md`](tests/test-plan.md).
 
-| # | Host | ATT&CK | Behaviour | Status |
+| # | Host | ATT&CK | Behaviour | Telemetry |
 |---|---|---|---|---|
-| T1 | ws01 | T1059.001 | Obfuscated PowerShell | Pending lab run |
-| T2 | ws01 | T1003.001 | LSASS credential access | Pending lab run |
-| T3 | ws01 | T1547.001 | Registry Run-key persistence | Pending lab run |
-| T4 | dc01 | T1136.002 / T1098 | New domain account added to a privileged group | Pending lab run |
-| T5 | dc01 | T1070.001 | Security log cleared | Pending lab run |
-| T6 | srv01 | T1110.001 | SSH password guessing | Pending lab run |
-| T7 | srv01 | T1098.004 | SSH `authorized_keys` modification | Pending lab run |
-| T8 | fw01 | T1046 | Network service discovery (scan) | Pending lab run |
+| T1 | ws01 | T1059.001 | Obfuscated PowerShell | Sysmon process creation, PowerShell script-block logging |
+| T2 | ws01 | T1003.001 | LSASS credential access | Sysmon process access |
+| T3 | ws01 | T1547.001 | Registry Run-key persistence | Sysmon registry events |
+| T4 | dc01 | T1136.002 / T1098 | New domain account added to a privileged group | Windows Security account-management events |
+| T5 | dc01 | T1070.001 | Security log cleared | Windows Security log events |
+| T6 | srv01 | T1110.001 | SSH password guessing | sshd authentication logs |
+| T7 | srv01 | T1098.004 | SSH `authorized_keys` modification | File integrity monitoring + auditd |
+| T8 | fw01 | T1046 | Network service discovery (scan) | Firewall logs via syslog |
 
-## 5. Results
+## 5. Deliverables and measurement
 
-**Verified so far (reproducible from this repository):**
-- The installer is pinned to Wazuh 4.14.8 and refuses to run if the upstream file changes (checksum check).
-- The reporting pipeline is tested in CI: [`export_alert_metrics.py`](scripts/report/export_alert_metrics.py)
-  and [`coverage_table.py`](scripts/report/coverage_table.py), including the rule that missing results are
-  reported as *Pending*, never as a partial percentage.
+**Delivered in this repository:**
+- Architecture and sizing for a five-VM, three-VLAN lab ([diagram](diagrams/architecture.svg)).
+- Detection plan: eight use cases mapped to MITRE ATT&CK and to the telemetry each one needs.
+- A version-pinned Wazuh 4.14.8 installer that verifies the upstream checksum before running.
+- A reporting pipeline tested in CI: [`export_alert_metrics.py`](scripts/report/export_alert_metrics.py)
+  exports daily alert counts from the Wazuh indexer and [`coverage_table.py`](scripts/report/coverage_table.py)
+  turns the test plan and those exports into the results tables.
 
-**Lab metrics** — filled in from real lab exports with `python scripts/report/coverage_table.py`:
+**How results are measured** (`python scripts/report/coverage_table.py`):
 
-| Metric | Result |
+| Metric | Definition |
 |---|---|
-| Detection coverage before tuning | Pending |
-| Detection coverage after tuning | Pending |
-| Average alerts per day (baseline → tuned) | Pending |
+| Detection coverage | Use cases that produced an alert ÷ use cases tested, before and after tuning |
+| Alert volume | Average alerts per day during a one-week baseline versus a week after tuning |
+| Reduction | Relative change in daily alert volume from baseline to tuned |
 
-- **Evidence:** sanitized screenshots will be added to [`screenshots/`](screenshots/) after the lab run.
-- **What didn't work / known gaps:** to be documented honestly after the run.
+Coverage is only reported once every use case has a recorded outcome, so a figure can never be computed
+from a favourable subset of tests.
 
-## 6. Lessons learned
+## 6. Design lessons and roadmap
 
-To be written after the lab run.
+- **Pin versions and verify what you download.** A "latest" installer makes a lab impossible to reproduce
+  months later. Pinning Wazuh 4.14.8 and checking the installer's SHA-256 turns silent upstream drift into a
+  visible stop.
+- **Check licence limits before designing around a product.** The free FortiGate-VM trial allows only three
+  interfaces, policies and routes and has no FortiGuard updates, so the firewall log source uses
+  pfSense/OPNsense, which have no such limits. The syslog path stays the same if a licensed FortiGate replaces it.
+- **Plan telemetry before rules.** Most Windows use cases depend on Sysmon, the advanced audit policy and
+  PowerShell script-block logging being in place first; a rule has nothing to match without them. Each use case
+  therefore names its telemetry source.
+- **Size the SIEM first.** The Wazuh indexer alone needs 8 GB of RAM and the full lab about 19 GB, which is
+  what sets the ≥32 GB host requirement.
+- **Define metrics before collecting data.** Writing the coverage and alert-volume definitions (and the rule
+  that partial results aren't reported) before any test runs keeps the results honest.
+
+**Roadmap:** build the lab from this design, collect a one-week baseline, exercise the eight use cases, write
+custom rules for any gaps, tune, and publish the measured coverage and alert-volume results here.
 
 ## 7. Reproduce it yourself
 

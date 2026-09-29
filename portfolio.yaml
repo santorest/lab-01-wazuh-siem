@@ -2,7 +2,7 @@
 slug: wazuh-siem-home-lab
 category: threat-detection-siem
 repo_url: https://github.com/santorest/lab-01-wazuh-siem
-status: in_progress          # complete | in_progress
+status: design               # design | in_progress | complete
 difficulty: intermediate     # beginner | intermediate | advanced
 featured: true
 # Show the site's "illustrative output" notice only once the write-up contains lab output/screenshots.

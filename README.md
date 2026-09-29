@@ -6,7 +6,7 @@ Detection-engineering lab for a fictional 40-person company: centralized logging
 telemetry with Sysmon, Linux telemetry with auditd, firewall logs from pfSense, and eight use cases mapped to
 MITRE ATT&CK.
 
-**Category:** Threat Detection & SIEM · **Status:** build in progress — lab results pending ·
+**Category:** Threat Detection & SIEM · **Status:** reference design — ready to build ·
 **Write-up:** [WRITEUP.md](WRITEUP.md)
 
 ![Architecture](diagrams/architecture.svg)

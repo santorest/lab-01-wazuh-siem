@@ -1,0 +1,15 @@
+<!-- Custom rules for Lab 01. Use rule IDs 100000–120000 (reserved for local rules). -->
+<!-- Each rule: ATT&CK tag, description, and a note on expected false positives. -->
+<group name="lab01,">
+
+  <!-- TODO: example structure; replace with rules written from your test gaps -->
+  <!--
+  <rule id="100100" level="10">
+    <if_group>sysmon_event1</if_group>
+    <field name="win.eventdata.image" type="pcre2">(?i)\\example\.exe$</field>
+    <description>Lab01: example process detection</description>
+    <mitre><id>T0000</id></mitre>
+  </rule>
+  -->
+
+</group>

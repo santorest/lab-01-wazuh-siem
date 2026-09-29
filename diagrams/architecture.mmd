@@ -1,0 +1,19 @@
+%% Source for architecture.svg (kept in sync by hand)
+flowchart LR
+  subgraph V20[VLAN 20 - Servers]
+    dc01[dc01 WS2022 DC<br/>agent + Sysmon]
+    srv01[srv01 Ubuntu<br/>agent + auditd]
+    wazuh[wazuh01 Wazuh 4.14.8<br/>indexer + server + dashboard]
+  end
+  subgraph V30[VLAN 30 - Users]
+    ws01[ws01 Win11<br/>agent + Sysmon]
+  end
+  subgraph V99[VLAN 99 - Management]
+    fw[fw01 pfSense]
+    analyst[Analyst / jump host]
+  end
+  dc01 -- 1514/tcp --> wazuh
+  srv01 -- 1514/tcp --> wazuh
+  ws01 -- 1514/tcp --> wazuh
+  fw -- syslog 514/udp --> wazuh
+  analyst -- 443/tcp UI --> wazuh

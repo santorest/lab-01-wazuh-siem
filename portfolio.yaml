@@ -1,0 +1,28 @@
+# Metadata used by the portfolio site's `import_lab` command (site repo). Not needed to run the lab.
+slug: wazuh-siem-home-lab
+category: threat-detection-siem
+repo_url: https://github.com/santorest/lab-01-wazuh-siem
+status: in_progress          # complete | in_progress
+difficulty: intermediate     # beginner | intermediate | advanced
+featured: true
+cover: diagrams/architecture.png
+writeup:
+  en: WRITEUP.md
+  es: WRITEUP.es.md
+title:
+  en: Wazuh SIEM Home Lab
+  es: Laboratorio SIEM con Wazuh
+summary:
+  en: >-
+    Single-node Wazuh SIEM for a fictional 40-person company: Windows, Linux and firewall telemetry,
+    eight detection use cases mapped to MITRE ATT&CK, and reproducible, version-pinned tooling.
+  es: >-
+    SIEM Wazuh de un solo nodo para una empresa ficticia de 40 personas: telemetría de Windows, Linux y
+    firewall, ocho casos de uso de detección mapeados a MITRE ATT&CK y herramientas reproducibles con
+    versiones fijadas.
+tools: [Wazuh, Sysmon, auditd, pfSense, Atomic Red Team, Python]
+mitre_attack: [T1059.001, T1003.001, T1547.001, T1136.002, T1098, T1070.001, T1110.001, T1098.004, T1046]
+bundle:
+  title:
+    en: Lab source bundle
+    es: Paquete de fuentes del laboratorio

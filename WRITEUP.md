@@ -14,9 +14,9 @@ bundle: "Published on the portfolio site with its SHA-256 checksum"
 
 # Wazuh SIEM Home Lab
 
-> **TL;DR** — Reference architecture for a single-node Wazuh SIEM protecting a fictional 40-person company:
+> **TL;DR** — Architecture for a single-node Wazuh SIEM protecting a fictional 40-person company:
 > Windows (Sysmon), Linux (auditd) and firewall telemetry, eight detection use cases mapped to MITRE ATT&CK,
-> version-pinned tooling and a tested measurement pipeline. **Deliverable: reference design, ready to build.**
+> version-pinned tooling and a tested measurement pipeline. **Deliverable: architecture, tooling and tests, ready to build; lab results not yet measured.**
 
 | | |
 |---|---|

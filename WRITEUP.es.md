@@ -1,9 +1,9 @@
 # Laboratorio SIEM con Wazuh
 
-> **Resumen** — Arquitectura de referencia de un SIEM Wazuh de un solo nodo para proteger a una empresa
+> **Resumen** — Arquitectura de un SIEM Wazuh de un solo nodo para proteger a una empresa
 > ficticia de 40 personas: telemetría de Windows (Sysmon), Linux (auditd) y del firewall, ocho casos de uso de
 > detección mapeados a MITRE ATT&CK, herramientas con versiones fijadas y un sistema de medición probado.
-> **Entregable: diseño de referencia, listo para construir.**
+> **Entregable: arquitectura, herramientas y pruebas, listas para construir; resultados del laboratorio aún sin medir.**
 
 | | |
 |---|---|

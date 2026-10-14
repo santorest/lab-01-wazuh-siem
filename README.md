@@ -1,6 +1,5 @@
 # Lab 01 — Wazuh SIEM Home Lab
 
-[![CI](https://github.com/santorest/lab-01-wazuh-siem/actions/workflows/ci.yml/badge.svg)](https://github.com/santorest/lab-01-wazuh-siem/actions/workflows/ci.yml)
 
 Detection-engineering lab for a fictional 40-person company: centralized logging with Wazuh, Windows
 telemetry with Sysmon, Linux telemetry with auditd, firewall logs from OPNsense, and eight use cases mapped to
@@ -18,7 +17,7 @@ MITRE ATT&CK.
 | dc01 | Windows Server 2022 | Domain controller (agent + Sysmon) | 10.10.20.11 |
 | srv01 | Ubuntu 24.04 | Linux server (agent + auditd) | 10.10.20.12 |
 | ws01 | Windows 11 | Workstation (agent + Sysmon) | 10.10.30.21 |
-| fw01 | OPNsense 26.7 | Firewall (fw-hq, built in [Lab 02](https://github.com/santorest/lab-02-segmented-network)), syslog source | 10.10.99.1 |
+| fw01 | OPNsense 26.7 | Firewall (fw-hq, built in Lab 02), syslog source | 10.10.99.1 |
 
 All addresses are lab-only. The lab network has no route to production networks.
 
@@ -26,7 +25,7 @@ All addresses are lab-only. The lab network has no route to production networks.
 | Component | Version |
 |---|---|
 | Wazuh (installer, server, agents) | 4.14.8 — installer SHA-256 `9adb693c474317644358fef74e629b0fab782bcb9c1a411e967a8348e3830bc1` |
-| Sysmon configuration | [sysmon-modular](https://github.com/olafhartong/sysmon-modular) commit `082cba5` (MIT) |
+| Sysmon configuration | sysmon-modular (`github.com/olafhartong/sysmon-modular`) commit `082cba5` (MIT) |
 | Atomic Red Team | commit `388942a` (MIT) · Invoke-AtomicRedTeam v2.3.0 |
 
 ## Repository layout

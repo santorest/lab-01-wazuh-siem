@@ -48,12 +48,12 @@
 | Wazuh de un solo nodo, instalación nativa | Elastic Security; Wazuh en Docker | Gratuito; incluye agentes, FIM, SCA y respuesta activa; la instalación nativa es como la operaría una empresa pequeña |
 | Versión fijada (4.14.8) con verificación del instalador | Instalador "latest" | Construcciones reproducibles; un cambio inesperado del proveedor detiene la instalación en lugar de producir un resultado distinto |
 | Sysmon con sysmon-modular | Configuración de SwiftOnSecurity; sin Sysmon | Mantenida, modular y etiquetada con técnicas ATT&CK |
-| OPNsense como firewall | Prueba de FortiGate-VM; pfSense CE | La prueba gratuita de FortiGate es demasiado limitada (ver lecciones); OPNsense se construye y documenta en el [Lab 02](https://github.com/santorest/lab-02-segmented-network); la ruta de syslog no cambia si más adelante se usa un FortiGate con licencia |
+| OPNsense como firewall | Prueba de FortiGate-VM; pfSense CE | La prueba gratuita de FortiGate es demasiado limitada (ver lecciones); OPNsense se construye y documenta en el [Lab 02](/portfolio/segmented-smb-network/); la ruta de syslog no cambia si más adelante se usa un FortiGate con licencia |
 
 ## 3. Construcción
 
 1. **Requisitos** — host Proxmox con ≥32 GB de RAM; bridge/VLAN aisladas 20, 30 y 99; ISO de evaluación de
-   Windows Server 2022 y Windows 11; ISO de Ubuntu 24.04; el firewall OPNsense del [Lab 02](https://github.com/santorest/lab-02-segmented-network).
+   Windows Server 2022 y Windows 11; ISO de Ubuntu 24.04; el firewall OPNsense del [Lab 02](/portfolio/segmented-smb-network/).
 2. **Servidor Wazuh** — en wazuh01 ejecuta [`scripts/deploy/install-wazuh.sh`](scripts/deploy/install-wazuh.sh).
    Descarga el instalador oficial 4.14.8, **verifica su SHA-256** e instala el indexador, el servidor y el
    dashboard. Guarda la contraseña de administrador generada en un gestor de contraseñas.
@@ -114,7 +114,7 @@ se puede calcular a partir de un subconjunto favorable de pruebas.
   silencioso del proveedor en una detención visible.
 - **Revisa los límites de licencia antes de diseñar alrededor de un producto.** La prueba gratuita de
   FortiGate-VM solo permite tres interfaces, políticas y rutas, y no recibe actualizaciones de FortiGuard; por
-  eso la fuente de registros del firewall usa OPNsense ([Lab 02](https://github.com/santorest/lab-02-segmented-network)), que no tiene esos límites. La ruta de syslog no
+  eso la fuente de registros del firewall usa OPNsense ([Lab 02](/portfolio/segmented-smb-network/)), que no tiene esos límites. La ruta de syslog no
   cambia si más adelante se usa un FortiGate con licencia.
 - **Planifica la telemetría antes que las reglas.** La mayoría de los casos de uso de Windows dependen de que
   Sysmon, la política de auditoría avanzada y el registro de bloques de script de PowerShell estén activos; sin
@@ -131,7 +131,7 @@ medidos de cobertura y volumen de alertas.
 
 ## 7. Reprodúcelo tú mismo
 
-- Clonar: `git clone https://github.com/santorest/lab-01-wazuh-siem.git`
+- Explorar el código: [en este sitio](./), archivo por archivo.
 - Descargar el paquete: desde el sitio del portafolio (el SHA-256 aparece junto a la descarga).
 - Tiempo estimado: 1–2 días de construcción, más una semana de línea base.
 - Limpieza: elimina las VM del laboratorio y el bridge aislado; no se usan recursos en la nube.

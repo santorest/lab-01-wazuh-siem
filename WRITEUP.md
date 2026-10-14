@@ -8,7 +8,6 @@ date: "2026-09-29"
 time_to_reproduce: "1–2 days to build, plus one week of baseline"
 skills: [Wazuh, Sysmon, auditd, OPNsense, MITRE ATT&CK, Python, Bash]
 frameworks: [MITRE ATT&CK, CIS Controls v8]
-repo: "https://github.com/santorest/lab-01-wazuh-siem"
 bundle: "Published on the portfolio site with its SHA-256 checksum"
 ---
 
@@ -63,12 +62,12 @@ bundle: "Published on the portfolio site with its SHA-256 checksum"
 | Wazuh single-node, native install | Elastic Security; Wazuh in Docker | Free, includes agents, FIM, SCA and active response; native install matches how a small company would run it |
 | Version pinned (4.14.8) with installer checksum | "Latest" installer | Reproducible builds; an unexpected upstream change stops the install instead of silently differing |
 | Sysmon with sysmon-modular | SwiftOnSecurity config; no Sysmon | Maintained, modular, and tagged with ATT&CK techniques |
-| OPNsense as the firewall | FortiGate-VM trial; pfSense CE | The free FortiGate trial is too limited (see lessons); OPNsense is built and documented in [Lab 02](https://github.com/santorest/lab-02-segmented-network); the syslog path stays the same if a licensed FortiGate replaces it |
+| OPNsense as the firewall | FortiGate-VM trial; pfSense CE | The free FortiGate trial is too limited (see lessons); OPNsense is built and documented in [Lab 02](/portfolio/segmented-smb-network/); the syslog path stays the same if a licensed FortiGate replaces it |
 
 ## 3. Build
 
 1. **Prerequisites** — Proxmox host with ≥32 GB RAM; isolated bridge/VLANs 20, 30, 99; Windows Server 2022
-   and Windows 11 evaluation ISOs; Ubuntu 24.04 ISO; the OPNsense firewall from [Lab 02](https://github.com/santorest/lab-02-segmented-network).
+   and Windows 11 evaluation ISOs; Ubuntu 24.04 ISO; the OPNsense firewall from [Lab 02](/portfolio/segmented-smb-network/).
 2. **Wazuh server** — on wazuh01 run [`scripts/deploy/install-wazuh.sh`](scripts/deploy/install-wazuh.sh). It
    downloads the official 4.14.8 installer, **verifies its SHA-256**, and installs the indexer, server and
    dashboard. Store the generated admin password in a password manager.
@@ -129,7 +128,7 @@ from a favourable subset of tests.
   visible stop.
 - **Check licence limits before designing around a product.** The free FortiGate-VM trial allows only three
   interfaces, policies and routes and has no FortiGuard updates, so the firewall log source uses
-  OPNsense ([Lab 02](https://github.com/santorest/lab-02-segmented-network)), which has no such limits. The syslog path stays the same if a licensed FortiGate replaces it.
+  OPNsense ([Lab 02](/portfolio/segmented-smb-network/)), which has no such limits. The syslog path stays the same if a licensed FortiGate replaces it.
 - **Plan telemetry before rules.** Most Windows use cases depend on Sysmon, the advanced audit policy and
   PowerShell script-block logging being in place first; a rule has nothing to match without them. Each use case
   therefore names its telemetry source.
@@ -143,7 +142,7 @@ custom rules for any gaps, tune, and publish the measured coverage and alert-vol
 
 ## 7. Reproduce it yourself
 
-- Clone: `git clone https://github.com/santorest/lab-01-wazuh-siem.git`
+- Browse the source: [on this site](./), file by file.
 - Download bundle: from the portfolio site (SHA-256 shown next to the download).
 - Estimated time: 1–2 days to build, plus one week of baseline.
 - Teardown: delete the lab VMs and the isolated bridge; no cloud resources are used.
